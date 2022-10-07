@@ -60,10 +60,7 @@ DJANGO_APPS = [
     "django.contrib.admin",
     "django.forms",
 ]
-THIRD_PARTY_APPS = [
-    "rest_framework",
-    "corsheaders",
-]
+THIRD_PARTY_APPS = ["rest_framework", "corsheaders", "django_celery_beat", "drf_yasg"]
 
 LOCAL_APPS = ["users"]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

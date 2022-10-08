@@ -3,14 +3,15 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 
 from common.permissions import IsAdmin
-from users.api.serializers import CreateSeasonSerializer
 from users.api.serializers import (
     UserSerializer,
     DepartmentSerializer,
     StreamSerializer,
     CommandSerializer,
+    CreateSeasonSerializer,
+    ClanSerializer,
 )
-from users.models import User, Department, Stream, Command
+from users.models import User, Department, Stream, Command, Clan
 
 
 class ListCreateUserApi(generics.ListCreateAPIView):
@@ -24,7 +25,7 @@ class CreateSeasonApi(generics.CreateAPIView):
     # permission_classes = [IsAuthenticated, IsAdmin]
 
 
-class RetireUpdateDeleteUserApi(generics.RetrieveUpdateDestroyAPIView):
+class RetrieveUpdateDeleteUserApi(generics.RetrieveUpdateDestroyAPIView):
     def get_object(self):
         user = get_object_or_404(
             User,
@@ -43,7 +44,7 @@ class ListCreateDepartmentApi(generics.ListCreateAPIView):
     queryset = Department.objects.all()
 
 
-class RetireUpdateDeleteDepartmentApi(generics.RetrieveUpdateDestroyAPIView):
+class RetrieveUpdateDeleteDepartmentApi(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = "pk"
     serializer_class = DepartmentSerializer
     permission_classes = [IsAuthenticated, IsAdmin]
@@ -55,7 +56,7 @@ class ListCreateStreamApi(ListCreateDepartmentApi):
     queryset = Stream.objects.all()
 
 
-class RetireUpdateDeleteStreamApi(RetireUpdateDeleteDepartmentApi):
+class RetrieveUpdateDeleteStreamApi(RetrieveUpdateDeleteDepartmentApi):
     serializer_class = StreamSerializer
     queryset = Stream.objects.all()
 
@@ -65,6 +66,12 @@ class ListCreateCommandApi(ListCreateDepartmentApi):
     queryset = Command.objects.all()
 
 
-class RetireUpdateDeleteCommandApi(RetireUpdateDeleteDepartmentApi):
+class RetrieveUpdateDeleteCommandApi(RetrieveUpdateDeleteDepartmentApi):
     serializer_class = CommandSerializer
     queryset = Command.objects.all()
+
+
+class ListClansApiView(generics.ListAPIView):
+    serializer_class = ClanSerializer
+    queryset = Clan.objects.all()
+    permission_classes = [IsAuthenticated, IsAdmin]

@@ -15,7 +15,7 @@ class ListCreateProductApi(generics.ListCreateAPIView):
     queryset = Product.objects.all()
 
 
-class RetireUpdateDestroyProductApi(generics.RetrieveUpdateDestroyAPIView):
+class RetrieveUpdateDestroyProductApi(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProductSerializer
     parser_classes = [FormParser, MultiPartParser]
     permission_classes = [IsAuthenticated, IsManager]

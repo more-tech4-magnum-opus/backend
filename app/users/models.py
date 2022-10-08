@@ -22,7 +22,7 @@ class User(AbstractUser):
     type = models.CharField(
         max_length=6, choices=WorkerType.choices, default=WorkerType.WORKER
     )
-    clan = models.ForeignKey("users.Clan", on_delete=models.SET_NULL, null=True)
+    clan = models.ForeignKey("users.Clan", related_name="users", on_delete=models.SET_NULL, null=True)
     command = models.ForeignKey(
         "users.Command", related_name="workers", on_delete=models.CASCADE
     )
@@ -46,6 +46,10 @@ class User(AbstractUser):
     @property
     def department(self):
         return self.command.stream.department.name
+
+    @property
+    def clan_name(self):
+        return self.clan.name
 
     class Meta:
         ordering = ["-id"]

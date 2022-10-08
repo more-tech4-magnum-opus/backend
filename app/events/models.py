@@ -32,5 +32,20 @@ class EventAttendance(models.Model):
     token = models.CharField(blank=False, unique=True, max_length=128)
     attended = models.BooleanField(default=False)
 
+    @property
+    def event_slug(self):
+        return self.event.slug
+
+    @property
+    def worker_username(self):
+        return self.worker.username
+
+    def username(self):
+        return self.worker_username
+
     def __str__(self):
         return f"{self.worker.name} attendance on {self.event.name}"
+
+    class Meta:
+        ordering = ["event__starts"]
+        unique_together = ["event", "worker"]

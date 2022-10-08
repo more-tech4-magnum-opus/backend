@@ -12,10 +12,10 @@ def end_season():
     mx_value = -1
     mx_clan = None
     for clan in Clan.objects.all():
-        if sum(map(lambda user: user.respect, clan.user_set.all())) > mx_value:
-            mx_value = sum(map(lambda user: user.respect, clan.user_set.all()))
+        if sum(map(lambda user: user.respect, clan.users.all())) > mx_value:
+            mx_value = sum(map(lambda user: user.respect, clan.users.all()))
             mx_clan = clan
-    for user in mx_clan.user_set.all():
+    for user in mx_clan.users.all():
         transfer_rubbles(
             settings.MAIN_WALLET,
             user.wallet_public_key,
@@ -25,7 +25,7 @@ def end_season():
 
 
 def create_chat(clan: Clan):
-    user_list = list(map(lambda user: user.telegram, clan.user_set.all()))
+    user_list = list(map(lambda user: user.telegram, clan.users.all()))
     if len(user_list):
         r.post(
             f"{settings.TELEGRAM_API}/create-chat",
@@ -38,15 +38,13 @@ def create_season():
     if len(Clan.objects.all()):
         end_season()
 
-    users = list(User.objects.all())
+    users = list(User.objects.filter(type=User.WorkerType.WORKER))
     shuffle(users)
     clan = None
     for index, user in enumerate(users):
-        if (index % 10 == 0) or (index == len(users) - 1):
-            if clan is not None:
-                create_chat(clan)
+        if index % 5 == 0:
             clan = Clan.objects.create()
         user.clan = clan
         user.save()
-    if len(users) % 10 != 0:
+    for clan in Clan.objects.all():
         create_chat(clan)

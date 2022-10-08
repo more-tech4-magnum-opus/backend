@@ -7,15 +7,16 @@ from utils.generators import generate_charset
 from .models import EventAttendance, Event
 
 
-@receiver(pre_save, sender=EventAttendance)
-def create_attendance(sender, instance, **kwargs):
-    token = generate_charset(25)
-    while EventAttendance.objects.filter(token=token).exists():
+@receiver(post_save, sender=EventAttendance)
+def create_attendance(sender, instance, created, **kwargs):
+    if created:
         token = generate_charset(25)
-    instance.token = token
+        while EventAttendance.objects.filter(token=token).exists():
+            token = generate_charset(25)
+        instance.token = token
 
-    instance.event.planning += 1
-    instance.event.save(update_fileds=["planning"])
+        instance.event.planning += 1
+        instance.event.save(update_fields=["planning", "token"])
 
 
 @receiver(post_save, sender=Event)
@@ -38,4 +39,4 @@ def process_event(sender, instance, created, **kwargs):
 @receiver(post_delete, sender=EventAttendance)
 def delete_attendance(sender, instance, **kwargs):
     instance.event.planning -= 1
-    instance.event.save(update_fileds=["planning"])
+    instance.event.save(update_fields=["planning"])

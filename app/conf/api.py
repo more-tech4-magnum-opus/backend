@@ -1,18 +1,26 @@
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from events.api.views import ListCreateEventApi, RetireUpdateDeleteEventApi
-from marketplace.api.views import ListCreateProductApi, RetireUpdateDestroyProductApi
+from events.api.views import (
+    ListCreateEventApi,
+    RetrieveUpdateDeleteEventApi,
+    ListPlannedEvents,
+    RetrieveSubmitDeleteEventAttendance,
+    ListAttendedWorkersApi,
+    SubmitWorkerAttendedEvent,
+)
+from marketplace.api.views import ListCreateProductApi, RetrieveUpdateDestroyProductApi
 from users.api.views import (
     ListCreateUserApi,
-    RetireUpdateDeleteUserApi,
+    RetrieveUpdateDeleteUserApi,
     ListCreateDepartmentApi,
-    RetireUpdateDeleteDepartmentApi,
+    RetrieveUpdateDeleteDepartmentApi,
     ListCreateStreamApi,
-    RetireUpdateDeleteStreamApi,
+    RetrieveUpdateDeleteStreamApi,
     ListCreateCommandApi,
-    RetireUpdateDeleteCommandApi,
+    RetrieveUpdateDeleteCommandApi,
     CreateSeasonApi,
+    ListClansApiView,
 )
 
 urlpatterns = [
@@ -32,8 +40,28 @@ urlpatterns = [
                 path("", ListCreateEventApi.as_view(), name="list_create_event"),
                 path(
                     "<str:slug>",
-                    RetireUpdateDeleteEventApi.as_view(),
+                    RetrieveUpdateDeleteEventApi.as_view(),
                     name="get_update_delete_event",
+                ),
+                path(
+                    "attendance/",
+                    ListPlannedEvents.as_view(),
+                    name="list_event_attendance",
+                ),
+                path(
+                    "attendance/<str:slug>/list/",
+                    ListAttendedWorkersApi.as_view(),
+                    name="list_event_attendance",
+                ),
+                path(
+                    "attendance/<str:slug>/submit/",
+                    SubmitWorkerAttendedEvent.as_view(),
+                    name="submit_event_attendance",
+                ),
+                path(
+                    "attendance/<str:slug>",
+                    RetrieveSubmitDeleteEventAttendance.as_view(),
+                    name="get_submit_delete_event_attendance",
                 ),
             ]
         ),
@@ -49,7 +77,7 @@ urlpatterns = [
                 ),
                 path(
                     "product/<str:slug>",
-                    RetireUpdateDestroyProductApi.as_view(),
+                    RetrieveUpdateDestroyProductApi.as_view(),
                     name="get_update_destroy_product",
                 ),
             ]
@@ -62,7 +90,7 @@ urlpatterns = [
                 path("", ListCreateUserApi.as_view(), name="list_create_user"),
                 path(
                     "<str:username>",
-                    RetireUpdateDeleteUserApi.as_view(),
+                    RetrieveUpdateDeleteUserApi.as_view(),
                     name="get_update_delete_user",
                 ),
                 path(
@@ -77,7 +105,7 @@ urlpatterns = [
                 ),
                 path(
                     "department/<int:pk>",
-                    RetireUpdateDeleteDepartmentApi.as_view(),
+                    RetrieveUpdateDeleteDepartmentApi.as_view(),
                     name="get_update_delete_department",
                 ),
                 path(
@@ -87,7 +115,7 @@ urlpatterns = [
                 ),
                 path(
                     "stream/<int:pk>",
-                    RetireUpdateDeleteStreamApi.as_view(),
+                    RetrieveUpdateDeleteStreamApi.as_view(),
                     name="get_update_delete_stream",
                 ),
                 path(
@@ -97,7 +125,7 @@ urlpatterns = [
                 ),
                 path(
                     "command/<int:pk>",
-                    RetireUpdateDeleteCommandApi.as_view(),
+                    RetrieveUpdateDeleteCommandApi.as_view(),
                     name="get_update_delete_command",
                 ),
             ]
@@ -105,6 +133,11 @@ urlpatterns = [
     ),
     path(
         "season/",
-        include([path("", CreateSeasonApi.as_view(), name="create new season")]),
+        include(
+            [
+                path("", CreateSeasonApi.as_view(), name="create new season"),
+                path("clans/", ListClansApiView.as_view()),
+            ]
+        ),
     ),
 ]

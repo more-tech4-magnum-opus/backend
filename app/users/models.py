@@ -20,10 +20,11 @@ class User(AbstractUser):
     type = models.CharField(
         max_length=6, choices=WorkerType.choices, default=WorkerType.WORKER
     )
+    salary = models.IntegerField(default=0)
+    clan = models.ForeignKey(Clan, on_delete=models.SET_NULL, null=True)
     command = models.ForeignKey(
         "users.Command", related_name="workers", on_delete=models.CASCADE
     )
-
     salary = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     respect = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     wallet_private_key = models.CharField(max_length=96, unique=True)

@@ -1,8 +1,8 @@
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from events.api.views import ListCreateEventApi, RetireUpdateDeleteEventApi
 from marketplace.api.views import ListCreateProductApi, RetireUpdateDestroyProductApi
+from users.api.views import ListCreateUserApi, CreateSeasonApi
 from users.api.views import (
     ListCreateUserApi,
     RetireUpdateDeleteUserApi,
@@ -102,4 +102,12 @@ urlpatterns = [
             ]
         ),
     ),
+    path(
+        'create_season/',
+        include(
+            [
+                path("", CreateSeasonApi.as_view(), name='create new season')
+            ]
+        )
+    )
 ]

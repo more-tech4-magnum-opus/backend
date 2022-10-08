@@ -3,6 +3,8 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 
 from common.permissions import IsAdmin
+from users.api.serializers import UserSerializer, CreateSeasonSerializer
+from users.models import User
 from users.api.serializers import (
     UserSerializer,
     DepartmentSerializer,
@@ -17,6 +19,10 @@ class ListCreateUserApi(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated, IsAdmin]
     queryset = User.objects.all()
 
+
+class CreateSeasonApi(generics.CreateAPIView):
+    serializer_class = CreateSeasonSerializer
+    #permission_classes = [IsAuthenticated, IsAdmin]
 
 class RetireUpdateDeleteUserApi(generics.RetrieveUpdateDestroyAPIView):
     def get_object(self):

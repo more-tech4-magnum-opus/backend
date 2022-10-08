@@ -22,8 +22,8 @@ class RetireUpdateDestroyProductApi(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
 
     def get_object(self):
-        block = get_object_or_404(
+        product = get_object_or_404(
             Product,
             slug=self.request.parser_context["kwargs"]["slug"],
         )
-        return block
+        return product

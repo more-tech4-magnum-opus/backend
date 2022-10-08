@@ -2,7 +2,16 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from marketplace.api.views import ListCreateProductApi, RetireUpdateDestroyProductApi
-from users.api.views import ListCreateUserApi
+from users.api.views import (
+    ListCreateUserApi,
+    RetireUpdateDeleteUserApi,
+    ListCreateDepartmentApi,
+    RetireUpdateDeleteDepartmentApi,
+    ListCreateStreamApi,
+    RetireUpdateDeleteStreamApi,
+    ListCreateCommandApi,
+    RetireUpdateDeleteCommandApi,
+)
 
 urlpatterns = [
     path(
@@ -35,7 +44,47 @@ urlpatterns = [
         "users/",
         include(
             [
-                path("", ListCreateUserApi.as_view(), name="user_list_create"),
+                path("", ListCreateUserApi.as_view(), name="list_create_user"),
+                path(
+                    "<str:username>",
+                    RetireUpdateDeleteUserApi.as_view(),
+                    name="get_update_delete_user",
+                ),
+                path(
+                    "department/",
+                    ListCreateDepartmentApi.as_view(),
+                    name="list_create_department",
+                ),
+                path(
+                    "department/",
+                    ListCreateDepartmentApi.as_view(),
+                    name="list_create_department",
+                ),
+                path(
+                    "department/<int:pk>",
+                    RetireUpdateDeleteDepartmentApi.as_view(),
+                    name="get_update_delete_department",
+                ),
+                path(
+                    "stream/",
+                    ListCreateStreamApi.as_view(),
+                    name="list_create_stream",
+                ),
+                path(
+                    "stream/<int:pk>",
+                    RetireUpdateDeleteStreamApi.as_view(),
+                    name="get_update_delete_stream",
+                ),
+                path(
+                    "command/",
+                    ListCreateCommandApi.as_view(),
+                    name="list_create_command",
+                ),
+                path(
+                    "command/<int:pk>",
+                    RetireUpdateDeleteCommandApi.as_view(),
+                    name="get_update_delete_command",
+                ),
             ]
         ),
     ),

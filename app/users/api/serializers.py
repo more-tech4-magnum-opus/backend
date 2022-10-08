@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from users.models import User
+from users.models import User, Department, Stream, Command
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -15,10 +15,13 @@ class UserSerializer(serializers.ModelSerializer):
             "salary",
             "respect",
             "wallet_public_key",
+            "command",
+            "department",
         ]
         extra_kwargs = {
             "password": {"write_only": True},
             "wallet_public_key": {"read_only": True},
+            "department": {"read_only": True},
         }
 
     def create(self, validated_data):
@@ -26,3 +29,41 @@ class UserSerializer(serializers.ModelSerializer):
             **validated_data, username=validated_data["telegram"]
         )
         return user
+
+
+class CommandSerializer(serializers.ModelSerializer):
+    workers = UserSerializer(many=True)
+
+    class Meta:
+        model = Command
+        fields = ["id", "name", "stream", "workers"]
+        extra_kwargs = {
+            "id": {"read_only": True},
+            "stream": {"write_only": True},
+            "workers": {"read_only": True},
+        }
+
+
+class StreamSerializer(serializers.ModelSerializer):
+    commands = CommandSerializer(many=True)
+
+    class Meta:
+        model = Stream
+        fields = ["id", "name", "department", "commands"]
+        extra_kwargs = {
+            "id": {"read_only": True},
+            "department": {"write_only": True},
+            "commands": {"read_only": True},
+        }
+
+
+class DepartmentSerializer(serializers.ModelSerializer):
+    streams = StreamSerializer(many=True)
+
+    class Meta:
+        model = Department
+        fields = ["id", "name", "streams"]
+        extra_kwargs = {
+            "id": {"read_only": True},
+            "streams": {"read_only": True},
+        }

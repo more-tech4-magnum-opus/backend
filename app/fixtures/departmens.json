@@ -1,0 +1,32 @@
+[
+{
+    "model": "users.department",
+    "pk": 1,
+    "fields": {
+        "name": "Backend"
+    }
+},
+{
+    "model": "users.department",
+    "pk": 2,
+    "fields": {
+        "name": "Frontend"
+    }
+},
+{
+    "model": "users.stream",
+    "pk": 1,
+    "fields": {
+        "name": "Colloring buttons",
+        "department": 2
+    }
+},
+{
+    "model": "users.command",
+    "pk": 1,
+    "fields": {
+        "name": "Colloring main page button go get money",
+        "stream": 1
+    }
+}
+]

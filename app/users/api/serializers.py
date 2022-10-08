@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from ..services import create_season
-from users.models import User, Clan
-from users.models import User, Department, Stream, Command
+from users.models import User, Department, Stream, Command, Clan
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -19,12 +18,14 @@ class UserSerializer(serializers.ModelSerializer):
             "command",
             "department",
             "clan_name",
+            "money",
         ]
         extra_kwargs = {
             "password": {"write_only": True},
             "wallet_public_key": {"read_only": True},
             "clan_name": {"read_only": True},
             "department": {"read_only": True},
+            "money": {"read_only": True},
         }
 
     def create(self, validated_data):
@@ -40,6 +41,9 @@ class CreateSeasonSerializer(serializers.Serializer):
     def create(self, *args, **kwargs):
         create_season()
         return {"created": True}
+
+    def update(self, instance, validated_data):
+        pass
 
 
 class CommandSerializer(serializers.ModelSerializer):

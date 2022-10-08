@@ -22,7 +22,9 @@ class User(AbstractUser):
     type = models.CharField(
         max_length=6, choices=WorkerType.choices, default=WorkerType.WORKER
     )
-    clan = models.ForeignKey("users.Clan", related_name="users", on_delete=models.SET_NULL, null=True)
+    clan = models.ForeignKey(
+        "users.Clan", related_name="users", on_delete=models.SET_NULL, null=True
+    )
     command = models.ForeignKey(
         "users.Command", related_name="workers", on_delete=models.CASCADE
     )
@@ -30,6 +32,8 @@ class User(AbstractUser):
     respect = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     wallet_private_key = models.CharField(max_length=96, unique=True)
     wallet_public_key = models.CharField(max_length=96, unique=True)
+    money = models.IntegerField(default=0, validators=[MinValueValidator(0)])
+
     telegram = models.CharField(max_length=100, unique=True)
 
     def __str__(self):

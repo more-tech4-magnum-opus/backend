@@ -2,8 +2,8 @@ from random import shuffle
 
 from django.conf import settings
 
+from blockchain.services import transact_from_admin
 from .models import Clan, User
-from utils.blockchain import transfer_rubbles
 import requests as r
 import json
 
@@ -16,12 +16,12 @@ def end_season():
             mx_value = sum(map(lambda user: user.respect, clan.users.all()))
             mx_clan = clan
     for user in mx_clan.users.all():
-        transfer_rubbles(
-            settings.MAIN_WALLET,
-            user.wallet_public_key,
-            100,
-        )
+        transact_from_admin(user, 100)
     Clan.objects.all().delete()
+
+    for user in User.objects.filter(type=User.WorkerType.WORKER):
+        if user.salary > 0:
+            transact_from_admin(user, user.salary)
 
 
 def create_chat(clan: Clan):

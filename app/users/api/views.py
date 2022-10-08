@@ -22,7 +22,8 @@ class ListCreateUserApi(generics.ListCreateAPIView):
 
 class CreateSeasonApi(generics.CreateAPIView):
     serializer_class = CreateSeasonSerializer
-    #permission_classes = [IsAuthenticated, IsAdmin]
+    # permission_classes = [IsAuthenticated, IsAdmin]
+
 
 class RetireUpdateDeleteUserApi(generics.RetrieveUpdateDestroyAPIView):
     def get_object(self):

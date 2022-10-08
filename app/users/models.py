@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator
 from django.db import models
 
 
@@ -15,17 +16,18 @@ class User(AbstractUser):
     # image_cropped = models.ImageField(upload_to="cropped/", blank=True)
 
     about = models.TextField(blank=True)
+    name = models.CharField(max_length=120)
     type = models.CharField(
         max_length=6, choices=WorkerType.choices, default=WorkerType.WORKER
     )
-    salary = models.IntegerField(default=0)
+    salary = models.IntegerField(default=0, validators=[MinValueValidator(0)])
+    respect = models.IntegerField(default=0, validators=[MinValueValidator(0)])
+    wallet_private_key = models.CharField(max_length=96, unique=True)
+    wallet_public_key = models.CharField(max_length=96, unique=True)
+    telegram = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.username
-
-    def save(self, *args, **kwargs):
-        self.set_password(self.password)
-        super(AbstractUser, self).save(*args, **kwargs)
 
     @property
     def is_manager(self):

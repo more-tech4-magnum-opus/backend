@@ -31,7 +31,7 @@ class User(AbstractUser):
         max_length=6, choices=WorkerType.choices, default=WorkerType.WORKER
     )
     salary = models.IntegerField(default=0)
-    clan = models.ForeignKey(Clan, on_delete=models.CASCADE, null=True)
+    clan = models.ForeignKey(Clan, on_delete=models.SET_NULL, null=True)
     salary = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     respect = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     wallet_private_key = models.CharField(max_length=96, unique=True, null=True)

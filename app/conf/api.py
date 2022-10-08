@@ -2,6 +2,7 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from marketplace.api.views import ListCreateProductApi, RetireUpdateDestroyProductApi
+from users.api.views import ListCreateUserApi
 
 urlpatterns = [
     path(
@@ -27,6 +28,14 @@ urlpatterns = [
                     RetireUpdateDestroyProductApi.as_view(),
                     name="get_update_destroy_product",
                 ),
+            ]
+        ),
+    ),
+    path(
+        "users/",
+        include(
+            [
+                path("", ListCreateUserApi.as_view(), name="user_list_create"),
             ]
         ),
     ),

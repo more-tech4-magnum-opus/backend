@@ -26,7 +26,7 @@ class User(AbstractUser):
     # image_cropped = models.ImageField(upload_to="cropped/", blank=True)
 
     about = models.TextField(blank=True)
-    name = models.CharField(max_length=120)
+    name = models.CharField(max_length=120, null=True)
     type = models.CharField(
         max_length=6, choices=WorkerType.choices, default=WorkerType.WORKER
     )
@@ -34,9 +34,9 @@ class User(AbstractUser):
     clan = models.ForeignKey(Clan, on_delete=models.CASCADE, null=True)
     salary = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     respect = models.IntegerField(default=0, validators=[MinValueValidator(0)])
-    wallet_private_key = models.CharField(max_length=96, unique=True)
-    wallet_public_key = models.CharField(max_length=96, unique=True)
-    telegram = models.CharField(max_length=100, unique=True)
+    wallet_private_key = models.CharField(max_length=96, unique=True, null=True)
+    wallet_public_key = models.CharField(max_length=96, unique=True, null=True)
+    telegram = models.CharField(max_length=100, unique=True, null=True)
 
     def __str__(self):
         return self.username

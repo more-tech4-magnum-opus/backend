@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..service import create_season
+from ..services import create_season
 from users.models import User
 from users.models import User, Department, Stream, Command
 

@@ -216,3 +216,7 @@ REST_FRAMEWORK = {
 
 # django-cors-headers
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+MAIN_WALLET = env("MAIN_WALLET")
+TELEGRAM_API = "https://tender-badgers-eat-178-71-165-37.loca.lt"

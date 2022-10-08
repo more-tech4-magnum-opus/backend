@@ -39,6 +39,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
+    "DATETIME_FORMAT": "%Y-%m-%dT%H:%M:%S.%fZ",
 }
 
 # STATIC

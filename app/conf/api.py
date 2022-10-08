@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+from events.api.views import ListCreateEventApi, RetireUpdateDeleteEventApi
 from marketplace.api.views import ListCreateProductApi, RetireUpdateDestroyProductApi
 from users.api.views import (
     ListCreateUserApi,
@@ -20,6 +21,19 @@ urlpatterns = [
             [
                 path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
                 path("refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+            ]
+        ),
+    ),
+    path(
+        "events/",
+        include(
+            [
+                path("", ListCreateEventApi.as_view(), name="list_create_event"),
+                path(
+                    "<str:slug>",
+                    RetireUpdateDeleteEventApi.as_view(),
+                    name="get_update_delete_event",
+                ),
             ]
         ),
     ),

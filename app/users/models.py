@@ -28,8 +28,12 @@ class User(AbstractUser):
         super(AbstractUser, self).save(*args, **kwargs)
 
     @property
-    def can_create_events(self):
+    def is_manager(self):
         return self.type in [self.WorkerType.HR, self.WorkerType.ADMIN]
+
+    @property
+    def is_admin(self):
+        return self.type == self.WorkerType.ADMIN
 
     class Meta:
         ordering = ["-id"]

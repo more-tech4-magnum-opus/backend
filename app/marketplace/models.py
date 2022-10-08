@@ -6,7 +6,7 @@ from users.models import User
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=20)
+    slug = models.SlugField(max_length=20, null=True)
     description = models.TextField(blank=True)
 
     image = models.ImageField(upload_to="uploads/")

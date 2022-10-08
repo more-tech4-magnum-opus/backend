@@ -14,3 +14,5 @@ channels-redis==4.0.0
 
 celery==5.2.7
 django-celery-beat==2.3.0
+
+faker==15.0.0

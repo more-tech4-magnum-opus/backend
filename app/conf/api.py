@@ -104,7 +104,7 @@ urlpatterns = [
         ),
     ),
     path(
-        "create_season/",
+        "season/",
         include([path("", CreateSeasonApi.as_view(), name="create new season")]),
     ),
 ]

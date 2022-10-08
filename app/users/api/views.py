@@ -3,8 +3,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 
 from common.permissions import IsAdmin
-from users.api.serializers import UserSerializer, CreateSeasonSerializer
-from users.models import User
+from users.api.serializers import CreateSeasonSerializer
 from users.api.serializers import (
     UserSerializer,
     DepartmentSerializer,

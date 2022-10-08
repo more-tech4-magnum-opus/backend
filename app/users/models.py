@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator
 from django.db import models
 
+from faker import Faker
+
 
 class User(AbstractUser):
     class WorkerType(models.TextChoices):
@@ -20,8 +22,7 @@ class User(AbstractUser):
     type = models.CharField(
         max_length=6, choices=WorkerType.choices, default=WorkerType.WORKER
     )
-    salary = models.IntegerField(default=0)
-    clan = models.ForeignKey(Clan, on_delete=models.SET_NULL, null=True)
+    clan = models.ForeignKey("users.Clan", on_delete=models.SET_NULL, null=True)
     command = models.ForeignKey(
         "users.Command", related_name="workers", on_delete=models.CASCADE
     )
@@ -75,3 +76,12 @@ class Command(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Clan(models.Model):
+    name = models.CharField(max_length=100, null=True)
+
+    def save(self, *args, **kwargs):
+        name = Faker().name()
+        self.name = name + "'s clan"
+        super(Clan, self).save(*args, **kwargs)

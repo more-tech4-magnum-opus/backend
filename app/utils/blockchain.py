@@ -128,5 +128,3 @@ def transfer_nft(my_private_wallet_key: str, transfer_publick_key: str, token_id
 def  get_balance(my_public_wallet_key: str) -> WalletBalance:
     res = r.get(URL+f'/v1/wallets/{my_public_wallet_key}/balance')
     return WalletBalance(matic=res.json()['maticAmount'], coins=res.json()['coinsAmount'])
-
-print(get_balance('0x1a63208e5b82588320a8C24b2c595Ba5d5cbfF3f'))

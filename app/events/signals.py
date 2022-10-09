@@ -10,13 +10,8 @@ from .models import EventAttendance, Event
 @receiver(post_save, sender=EventAttendance)
 def create_attendance(sender, instance, created, **kwargs):
     if created:
-        token = generate_charset(25)
-        while EventAttendance.objects.filter(token=token).exists():
-            token = generate_charset(25)
-        instance.token = token
-
         instance.event.planning += 1
-        instance.event.save(update_fields=["planning", "token"])
+        instance.event.save(update_fields=["planning"])
 
 
 @receiver(post_save, sender=Event)

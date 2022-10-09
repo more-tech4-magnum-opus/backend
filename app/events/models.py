@@ -29,7 +29,6 @@ class Event(models.Model):
 class EventAttendance(models.Model):
     event = models.ForeignKey(Event, related_name="people", on_delete=models.CASCADE)
     worker = models.ForeignKey(User, related_name="events", on_delete=models.CASCADE)
-    token = models.CharField(blank=False, unique=True, max_length=128)
     attended = models.BooleanField(default=False)
 
     @property

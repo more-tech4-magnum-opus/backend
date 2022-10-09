@@ -12,13 +12,11 @@ class ProductSerializer(serializers.ModelSerializer):
             "description",
             "image",
             "image_cropped",
-            "nft",
             "price",
             "creator",
         ]
         extra_kwargs = {
             "image": {"write_only": True},
-            "nft": {"read_only": True},
             "slug": {"read_only": True},
             "image_cropped": {"read_only": True},
             "creator": {"read_only": True},

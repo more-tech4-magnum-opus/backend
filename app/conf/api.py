@@ -5,7 +5,8 @@ from blockchain.api.views import (
     TransactFromAdminView,
     TransactToUserView,
     TransactToAdminView,
-    GetMoneyApi, TransactionHistoryApi,
+    GetMoneyApi,
+    TransactionHistoryApi,
 )
 from events.api.views import (
     ListCreateEventApi,
@@ -15,7 +16,7 @@ from events.api.views import (
     ListAttendedWorkersApi,
     SubmitWorkerAttendedEvent,
 )
-from marketplace.api.views import ListCreateProductApi, RetrieveUpdateDestroyProductApi
+from marketplace.api.views import ListCreateProductApi, RetrieveUpdateDestroyProductApi, BuyProductApi
 from users.api.views import (
     ListCreateUserApi,
     RetrieveUpdateDeleteUserApi,
@@ -27,6 +28,7 @@ from users.api.views import (
     RetrieveUpdateDeleteCommandApi,
     CreateSeasonApi,
     ListClansApiView,
+    GetSelfUserApi,
 )
 
 urlpatterns = [
@@ -118,6 +120,11 @@ urlpatterns = [
                     RetrieveUpdateDestroyProductApi.as_view(),
                     name="get_update_destroy_product",
                 ),
+                path(
+                    "product/<str:slug>/buy",
+                    BuyProductApi.as_view(),
+                    name="bui_product",
+                ),
             ]
         ),
     ),
@@ -126,6 +133,7 @@ urlpatterns = [
         include(
             [
                 path("", ListCreateUserApi.as_view(), name="list_create_user"),
+                path("self/", GetSelfUserApi.as_view(), name="get_self_user_api"),
                 path(
                     "<str:username>",
                     RetrieveUpdateDeleteUserApi.as_view(),

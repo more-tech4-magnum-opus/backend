@@ -11,7 +11,7 @@ class Product(models.Model):
 
     image = models.ImageField(upload_to="uploads/")
     image_cropped = models.ImageField(upload_to="cropped/", blank=True)
-    nft = models.CharField(max_length=500, blank=True)
+    token = models.IntegerField(default=0)
 
     price = models.IntegerField(validators=[MinValueValidator(0)])
     creator = models.ForeignKey(User, related_name="products", on_delete=models.CASCADE)

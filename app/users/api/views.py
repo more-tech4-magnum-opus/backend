@@ -75,3 +75,11 @@ class ListClansApiView(generics.ListAPIView):
     serializer_class = ClanSerializer
     queryset = Clan.objects.all()
     permission_classes = [IsAuthenticated, IsAdmin]
+
+
+class GetSelfUserApi(generics.RetrieveAPIView):
+    def get_object(self):
+        return self.request.user
+
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserSerializer

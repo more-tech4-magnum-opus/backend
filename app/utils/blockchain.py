@@ -81,7 +81,6 @@ def create_nft(wallet_public_key: str, string_url: str) -> TransHash:
 
 def get_nfts(wallet_public_key: str) -> List[NftInfo]:
     res = r.get(URL + f"/v1/wallets/{wallet_public_key}/nft/balance")
-    print(res.json())
     return list(
         map(
             lambda res: NftInfo(uri=res["uri"], tokens=res["tokens"]),

@@ -1,7 +1,8 @@
 # backend
 
 #### Веб-сервер, для обработки и хранения информации о пользователях и их операциях
-#
+
+
 Стек технологий:
 - Django, DRF, Channels
 - Celery
@@ -34,4 +35,10 @@ $ python3 manage.py runserver
 #### Запуск celery
 ```shell
 $ celery -A conf worker --loglevel=INFO
+```
+
+
+### Запуск через docker
+```shell
+$ docker-compose -f production.yml up
 ```

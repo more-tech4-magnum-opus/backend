@@ -21,16 +21,18 @@ def validate_create_transaction(sender, instance: Transaction, **kwargs):
         instance.user_from.money = user_from_money
         instance.user_from.save(update_fields=["money"])
 
-    if user_from_money - instance.amount <= 0:
+    if user_from_money - instance.amount < 0:
         raise ValidationError(
             f"{instance.user_from.username} doesn't have enough money"
         )
-
-    transaction = transfer_rubbles(
-        instance.user_from.wallet_private_key,
-        instance.user_to.wallet_public_key,
-        amount=instance.amount,
-    )
+    try:
+        transaction = transfer_rubbles(
+            instance.user_from.wallet_private_key,
+            instance.user_to.wallet_public_key,
+            amount=instance.amount,
+        )
+    except AttributeError:
+        raise ValidationError("Transaction unsuccessful")
     instance.user_from.money -= instance.amount
     instance.user_from.save(update_fields=["money"])
 

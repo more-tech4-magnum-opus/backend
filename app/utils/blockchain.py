@@ -132,3 +132,20 @@ def get_balance(my_public_wallet_key: str) -> WalletBalance:
     return WalletBalance(
         matic=res.json()["maticAmount"], coins=res.json()["coinsAmount"]
     )
+
+
+def send_matic(
+    my_private_wallet_key: str, transfer_publick_key: str, amount: float
+) -> TransHash:
+    res = r.post(
+        URL + "/v1/transfers/matic",
+        data=json.dumps(
+            {
+                "fromPrivateKey": my_private_wallet_key,
+                "toPublicKey": transfer_publick_key,
+                "amount": amount,
+            }
+        ),
+        headers=base_headers,
+    )
+    return TransHash(transaction_hash=res.json()["transaction"])

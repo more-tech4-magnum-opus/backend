@@ -1,6 +1,12 @@
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+from blockchain.api.views import (
+    TransactFromAdminView,
+    TransactToUserView,
+    TransactToAdminView,
+    GetMoneyApi, TransactionHistoryApi,
+)
 from events.api.views import (
     ListCreateEventApi,
     RetrieveUpdateDeleteEventApi,
@@ -30,6 +36,38 @@ urlpatterns = [
             [
                 path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
                 path("refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+            ]
+        ),
+    ),
+    path(
+        "blockchain/",
+        include(
+            [
+                path(
+                    "salary/",
+                    TransactFromAdminView.as_view(),
+                    name="admin_to_user_transaction_api",
+                ),
+                path(
+                    "payment/",
+                    TransactToAdminView.as_view(),
+                    name="user_to_admin_transaction_api",
+                ),
+                path(
+                    "transact/",
+                    TransactToUserView.as_view(),
+                    name="user_to_user_transaction_api",
+                ),
+                path(
+                    "amount/",
+                    GetMoneyApi.as_view(),
+                    name="get_user_money_api",
+                ),
+                path(
+                    "history/",
+                    TransactionHistoryApi.as_view(),
+                    name="list_transactions_api",
+                ),
             ]
         ),
     ),

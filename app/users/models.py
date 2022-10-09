@@ -23,7 +23,11 @@ class User(AbstractUser):
         max_length=6, choices=WorkerType.choices, default=WorkerType.WORKER
     )
     clan = models.ForeignKey(
-        "users.Clan", related_name="users", on_delete=models.SET_NULL, null=True
+        "users.Clan",
+        related_name="users",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
     )
     command = models.ForeignKey(
         "users.Command", related_name="workers", on_delete=models.CASCADE

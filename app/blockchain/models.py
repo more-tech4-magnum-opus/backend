@@ -19,6 +19,18 @@ class Transaction(models.Model):
 
     hash = models.CharField(max_length=256, unique=True)
 
+    @property
+    def t_type(self):
+        return False
+
+    @property
+    def user_from_username(self):
+        return self.user_from.username
+
+    @property
+    def user_to_username(self):
+        return self.user_to.username
+
     def __str__(self):
         return f"transaction from {self.user_from} to {self.user_to}"
 
@@ -39,11 +51,15 @@ class AdminTransaction(models.Model):
     hash = models.CharField(max_length=256, unique=True)
 
     @property
-    def user_from(self):
+    def user_from_username(self):
         return "system" if self.type == self.TransactionType.TO else self.user.username
 
     @property
-    def user_to(self):
+    def t_type(self):
+        return self.type.lower()
+
+    @property
+    def user_to_username(self):
         return (
             "system" if self.type == self.TransactionType.FROM else self.user.username
         )

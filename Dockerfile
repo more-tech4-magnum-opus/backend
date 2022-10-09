@@ -4,5 +4,5 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 WORKDIR /code
 COPY requirements/* /code/
-RUN pip install -r prod.txt
-COPY . /code/
+RUN pip install -r production.txt
+COPY app/* /code/

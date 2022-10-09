@@ -5,6 +5,7 @@
 Стек технологий:
 - Django, DRF, Channels
 - Celery
+- Celery Beat
 - Postgresql
 - Swagger
 
